@@ -67,4 +67,21 @@ module Enumerable
     return y
   end
 
+  def my_none?(arg=nil)
+    arr=self
+    n= arr.length-1
+    pass=0
+    n_array=[]
+    y=0
+    arr.my_each do |x|
+      if yield (x) 
+        y = false
+        return y
+      else
+        y = true
+      end
+    end
+    return y
+  end
+
 end
