@@ -40,4 +40,5 @@ module Enumerable
      end
     return n_array
   end
+  
 end
