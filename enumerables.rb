@@ -32,4 +32,22 @@ module Enumerable
     arr.my_each { |x| n_array << x if yield (x) }
     return n_array
   end
+
+  def my_all?
+    arr=self
+    n= arr.length-1
+    pass=0
+    n_array=[]
+    y=0
+    arr.my_each do |x|
+      if yield (x) 
+        y = true
+      else
+        y = false
+        return y
+      end
+    end
+    return y
+  end
+  
 end
