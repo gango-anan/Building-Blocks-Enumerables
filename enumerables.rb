@@ -92,7 +92,7 @@ module Enumerable
     y=0
     if block_given?
       arr.my_each { |x| y += 1 if yield (x) }
-    elsif !block_given? and arg==nil
+    elsif !block_given? && arg==nil
      y=arr.length
     else 
      arr.my_select {|x| x==arg}.length
