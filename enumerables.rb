@@ -100,4 +100,29 @@ module Enumerable
     return y
   end
 
+  def my_map
+    array=self.to_a
+    index = 0
+    newArray = Array.new
+
+    while index < array.length
+      newArray[index] = yield(array[index])
+      index += 1
+    end
+
+    newArray
+  end
+
+  def my_inject
+    array=self.to_a
+    index = 0
+    sum = 0
+    
+    while index < array.length
+      sum += yield(array[index])
+      index += 1
+    end
+    sum
+  end
+
 end
