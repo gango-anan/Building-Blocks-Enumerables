@@ -54,7 +54,7 @@ module Enumerable
     y
   end
 
-  def my_any?(arg = nil)
+  def my_any?(arg=nil)
     arr = self
     y = false
     if block_given?
