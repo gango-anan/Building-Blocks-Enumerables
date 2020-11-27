@@ -103,17 +103,35 @@ module Enumerable
     n= arr.length-1
     pass=0
     n_array=[]
-    y=0
-    arr.my_each do |x|
-      if yield (x) 
-        y = false
+    y=true
+    if block_given?
+      arr.my_each do |x|
+        if yield (x)
+          y = false
         return y
       else
         y = true
       end
     end
     return y
+  elsif !block_given? && arg==nil
+    arr.my_each do |x|
+      if arr==nil
+        y=true
+        return y
+      else
+        return y
+      end
+    end
+  else
+    arr.my_each do |x|
+      if x != arg
+        y=true
+        return y
+      end
+    end
   end
+end
 
   def my_count(arg=nil)
     arr=self
@@ -126,7 +144,7 @@ module Enumerable
     elsif !block_given? && arg==nil
      y=arr.length
     else 
-     arr.my_select {|x| x==arg}.length
+     y=arr.my_select {|x| x==arg}.length
     end
     return y
   end
@@ -167,12 +185,12 @@ end
 # puts '3.--------my_select--------'
 # puts (%w[Sharon Leo Leila Brian Arun].my_select { |friend| friend != 'Brian' })
 
-# puts '4.--------my_all--------'
-# puts (%w[ant bear cat].my_all? { |word| word.length >= 3 }) #=> true
-# puts (%w[ant bear cat].my_all? { |word| word.length >= 4 }) #=> false
-# puts %w[ant bear cat].my_all?(/t/) #=> false
-# puts [1, 2i, 3.14].my_all?(Numeric) #=> true
-# puts [].my_all? #=> true
+puts '4.--------my_all--------'
+puts (%w[ant bear cat].my_all? { |word| word.length >= 3 }) #=> true
+puts (%w[ant bear cat].my_all? { |word| word.length >= 4 }) #=> false
+puts %w[ant bear cat].my_all?(/t/) #=> false
+puts [1, 2i, 3.14].my_all?(Numeric) #=> true
+puts [].my_all? #=> true
 
 puts '5.--------my_any--------'
 puts (%w[ant bear cat].any? { |word| word.length >= 3 })
@@ -181,32 +199,31 @@ puts %w[ant bear cat].my_any?(/d/) #=> false
 puts [nil, true, 99].my_any? #=> true
 puts [].my_any? #=> false
 
-# puts '6.--------my_none--------'
-# puts (%w[ant bear cat].my_none? { |word| word.length == 5 }) #=> true
-# puts (%w[ant bear cat].my_none? { |word| word.length >= 4 }) #=> false
-# puts %w[ant bear cat].my_none?(/d/) #=> true
-# puts [1, 3.14, 42].my_none?(Float) #=> false
-# puts [].my_none? #=> true
-# puts [nil].my_none? #=> true
-# puts [nil, false].my_none? #=> true
-# puts [nil, false, true].my_none? #=> false
+puts '6.--------my_none--------'
+puts (%w[ant bear cat].my_none? { |word| word.length == 5 }) #=> true
+puts (%w[ant bear cat].my_none? { |word| word.length >= 4 }) #=> false
+puts %w[ant bear cat].my_none?(/d/) #=> true
+puts [].my_none? #=> true
+puts [nil].my_none? #=> true
+puts [nil, false].my_none? #=> true
+puts [nil, false, true].my_none? #=> false
 
-# puts '7.--------my_count--------'
-# arr = [1, 2, 4, 2]
-# puts arr.my_count #=> 4
-# puts arr.my_count(2) #=> 2
-# puts (arr.my_count { |x| (x % 2).zero? }) #=> 3
+puts '7.--------my_count--------'
+arr = [1, 2, 4, 2]
+puts arr.my_count #=> 4
+puts arr.my_count(2) #=> 2
+puts (arr.my_count { |x| (x % 2).zero? }) #=> 3
 
-# puts '8.--------my_maps--------'
-# my_order = ['medium Big Mac', 'medium fries', 'medium milkshake']
-# puts (my_order.my_map { |item| item.gsub('medium', 'extra large') })
-# puts ((0..5).my_map { |i| i * i })
-# puts 'my_map_proc'
+ puts '8.--------my_maps--------'
+ my_order = ['medium Big Mac', 'medium fries', 'medium milkshake']
+ puts (my_order.my_map { |item| item.gsub('medium', 'extra large') })
+ puts ((0..5).my_map { |i| i * i })
+ puts 'my_map_proc'
 
-# puts '8.--------my_inject--------'
-# puts ((1..5).my_inject { |sum, n| sum + n }) #=> 15
-# puts (1..5).my_inject(1) { |product, n| product * n } #=> 120
-# longest = %w[ant bear cat].my_inject do |memo, word|
-#   memo.length > word.length ? memo : word
-# end
-# puts longest 
+puts '8.--------my_inject--------'
+puts ((1..5).my_inject { |sum, n| sum + n }) #=> 15
+puts (1..5).my_inject(1) { |product, n| product * n } #=> 120
+longest = %w[ant bear cat].my_inject do |memo, word|
+memo.length > word.length ? memo : word
+end
+puts longest 
