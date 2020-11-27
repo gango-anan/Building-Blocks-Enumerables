@@ -162,24 +162,47 @@ module Enumerable
     newArray
   end
 
-  def my_inject (arg1=nil, arg2=nil)
-    array=self.to_a
-    index = 1
-    sum = array[0]
-    if block_given?
-      while index < array.length
-        if array[index].is_a?(Numeric)
-          sum = yield(sum, array[index])
-          index += 1
+  # def my_inject (arg1=nil, arg2=nil)
+  #   array=self.to_a
+  #   index = 1
+  #   sum = array[0]
+  #   if block_given?
+  #     while index < array.length
+  #       if array[index].is_a?(Numeric)
+  #         sum = yield(sum, array[index])
+  #         index += 1
+  #       else
+  #         return sum
+  #       end
+  #     end
+  #     if arg1!=nil
+  #       yield(sum,arg1)
+  #     end
+  #     sum
+  #   end
+  # end
+
+  def my_inject(arg1 = nil, arg2 = nil)
+    arg2, arg1 = arg1, nil if (arg1 != nil && arg2 == nil) && (arg1.is_a?(Symbol) || arg1.is_a?(String))
+    
+    if !block_given? && arg2 != nil 
+      my_each do |element| 
+        if arg1 == nil
+          arg1 = element
         else
-          return sum
+          arg1 = arg1.send(arg2, element)
         end
       end
-      if arg1!=nil
-        yield(sum,arg1)
+    else
+      my_each do |element|
+        if  arg1 == nil
+          arg1 = element 
+        else
+          arg1 = yield(arg1, element)
+        end
       end
-      sum
     end
+    arg1
   end
 
 end
@@ -236,8 +259,8 @@ longest = %w[ant bear cat].inject do |memo, word|
   end
   puts longest 
 
-  def multiply_els(arr)
-    arr.my_inject(1, '*')
+  def multiply_els(elements)
+    elements.my_inject(:*)
   end
 
   p "multiply_els"
