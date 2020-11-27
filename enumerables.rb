@@ -91,7 +91,7 @@ module Enumerable
           y = true
         end
       end
-      return y
+      y
 
     elsif !block_given? && arg.nil?
       arr.my_each do |x|
@@ -175,3 +175,12 @@ end
 def multiply_els(elements)
   elements.my_inject(:*)
 end
+
+puts (%w[ant bear cat].my_none? { |word| word.length == 5 }) #=> true
+puts (%w[ant bear cat].my_none? { |word| word.length >= 4 }) #=> false
+puts %w[ant bear cat].my_none?(/d/) #=> true
+puts [1, 3.14, 42].my_none?(Float) #=> false
+puts [].my_none? #=> true
+puts [nil].my_none? #=> true
+puts [nil, false].my_none? #=> true
+puts [nil, false, true].my_none? #=> false
