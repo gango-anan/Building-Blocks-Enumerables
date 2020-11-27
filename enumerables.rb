@@ -85,9 +85,8 @@ module Enumerable
     y = true
     if block_given?
       arr.my_each do |x|
-        if yield x
-          y = false
-          return y
+        if yield x                  
+          return false
         else
           y = true
         end
