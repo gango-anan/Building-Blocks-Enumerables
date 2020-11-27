@@ -1,4 +1,3 @@
-# rubocop:disable Style/CaseEquality 
 module Enumerable
   def my_each
     arr = to_a
@@ -55,7 +54,7 @@ module Enumerable
     y
   end
 
-  def my_any?(arg=nil)
+  def my_any?(arg = nil)
     arr = self
     y = false
     if block_given?
@@ -109,18 +108,14 @@ module Enumerable
     array = to_a
     index = 0
     n_array = []
-    if arg.nil?
-      while index < array.length
+    while index < array.length
+      if arg.nil?
         n_array[index] = yield(array[index])
-        index += 1
-      end
-    else
-      while index < array.length
+      else
         n_array[index] = yield(arg[index])
-        index += 1
       end
+      index += 1
     end
-
     n_array
   end
 
@@ -130,9 +125,9 @@ module Enumerable
       arg1 = nil
     end
     if !block_given? && !arg2.nil?
-      my_each { |element| arg1 = arg1.nil? ? element : arg1.send(arg2, element) }
+      my_each { |ele| arg1 = arg1.nil? ? ele : arg1.send(arg2, ele) }
     else
-      my_each { |element| arg1 = arg1.nil? ? element : yield(arg1, element) }
+      my_each { |ele| arg1 = arg1.nil? ? ele : yield(arg1, ele) }
     end
     arg1
   end
