@@ -128,7 +128,7 @@ module Enumerable
       arg2 = arg1
       arg1 = nil
     end
-    if !block_given? && !arg2.nil? 
+    if !block_given? && !arg2.nil?
       my_each { |element| arg1 = arg1.nil? ? element : arg1.send(arg2, element) }
     else
       my_each { |element| arg1 = arg1.nil? ? element : yield(arg1, element) }
