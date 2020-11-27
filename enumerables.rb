@@ -66,9 +66,7 @@ module Enumerable
       arr.my_each { return y = true unless arr.nil? }
     else
       arr.my_each do |x|
-        if x == arg
-          return true
-        end
+        return true if x == arg
       end
     end
     y
@@ -83,20 +81,14 @@ module Enumerable
       end
     elsif !block_given? && arg.nil?
       arr.my_each do |x|
-        if x.nil? || x == false
-          y = true
-        else
-          return false
-        end
+        return false  if !x.nil? || x != false
       end
     else
       arr.my_each do |x|
-        if x != arg
-          return true
-        end
+        return true if x != arg
       end
     end
-    return y
+    y
   end
 
   def my_count(arg = nil)
@@ -161,12 +153,3 @@ end
 def multiply_els(elements)
   elements.my_inject(:*)
 end
-
-puts (%w[ant bear cat].my_any? { |word| word.length == 5 }) #=> true
-puts (%w[ant bear cat].my_any?  { |word| word.length >= 4 }) #=> false
-puts %w[ant bear cat].my_none?(/d/) #=> true
-puts [1, 3.14, 42].my_none?(Float) #=> false
-puts [].my_none? #=> true
-puts [nil].my_none? #=> true
-puts [nil, false].my_none? #=> true
-puts [nil, false, true].my_none? #=> false
