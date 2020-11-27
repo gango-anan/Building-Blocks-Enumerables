@@ -114,7 +114,7 @@ module Enumerable
       end
     end
     return y
-  elsif !block_given? && arg==nil
+    elsif !block_given? && arg==nil
     arr.my_each do |x|
       if arr==nil
         y=true
@@ -123,15 +123,15 @@ module Enumerable
         return y
       end
     end
-  else
+    else
     arr.my_each do |x|
       if x != arg
         y=true
         return y
       end
     end
+    end
   end
-end
 
   def my_count(arg=nil)
     arr=self
@@ -162,28 +162,36 @@ end
     newArray
   end
 
-  def my_inject
+  def my_inject (arg1=nil, arg2=nil)
     array=self.to_a
-    index = 0
-    sum = 0
-    
-    while index < array.length
-      sum += yield(array[index])
-      index += 1
+    index = 1
+    sum = array[0]
+    if block_given?
+      while index < array.length
+        if array[index].is_a?(Numeric)
+          sum = yield(sum, array[index])
+          index += 1
+        else
+          return sum
+        end
+      end
+      if arg1!=nil
+        yield(sum,arg1)
+      end
+      sum
     end
-    sum
   end
 
 end
 
-# puts '1.--------my_each--------'
-# %w[Sharon Leo Leila Brian Arun].my_each { |friend| puts friend }
+puts '1.--------my_each--------'
+ %w[Sharon Leo Leila Brian Arun].my_each { |friend| puts friend }
 
-# puts '2.--------my_each_with_index--------'
-# %w[Sharon Leo Leila Brian Arun].my_each_with_index { |friend, index| puts friend if index.even? }
+ puts '2.--------my_each_with_index--------'
+ %w[Sharon Leo Leila Brian Arun].my_each_with_index { |friend, index| puts friend if index.even? }
 
-# puts '3.--------my_select--------'
-# puts (%w[Sharon Leo Leila Brian Arun].my_select { |friend| friend != 'Brian' })
+ puts '3.--------my_select--------'
+ puts (%w[Sharon Leo Leila Brian Arun].my_select { |friend| friend != 'Brian' })
 
 puts '4.--------my_all--------'
 puts (%w[ant bear cat].my_all? { |word| word.length >= 3 }) #=> true
@@ -193,7 +201,7 @@ puts [1, 2i, 3.14].my_all?(Numeric) #=> true
 puts [].my_all? #=> true
 
 puts '5.--------my_any--------'
-puts (%w[ant bear cat].any? { |word| word.length >= 3 })
+puts (%w[ant bear cat].my_any? { |word| word.length >= 3 })
 puts (%w[ant bear cat].my_any? { |word| word.length >= 4 }) #=> true
 puts %w[ant bear cat].my_any?(/d/) #=> false
 puts [nil, true, 99].my_any? #=> true
@@ -221,9 +229,16 @@ puts (arr.my_count { |x| (x % 2).zero? }) #=> 3
  puts 'my_map_proc'
 
 puts '8.--------my_inject--------'
-puts ((1..5).my_inject { |sum, n| sum + n }) #=> 15
-puts (1..5).my_inject(1) { |product, n| product * n } #=> 120
-longest = %w[ant bear cat].my_inject do |memo, word|
-memo.length > word.length ? memo : word
-end
-puts longest 
+puts ((1..5).my_inject { |sum, n| sum % n }) #=> 15
+puts (1..5).my_inject(1) { |product, n| product * n }
+longest = %w[ant bear cat].inject do |memo, word|
+  memo.length > word.length ? memo : word
+  end
+  puts longest 
+
+  def multiply_els(arr)
+    arr.my_inject(1, '*')
+  end
+
+  p "multiply_els"
+p multiply_els([2, 4, 5])
