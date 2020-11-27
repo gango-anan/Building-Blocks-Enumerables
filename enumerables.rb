@@ -58,16 +58,11 @@ module Enumerable
     arr = self
     y = false
     if block_given?
-      arr.my_each do |x|
-        return true if yield x
-      end
-      return y
+      arr.my_each { |x| return true if yield x }
     elsif !block_given? && arg.nil?
-      arr.my_each { return y = true unless arr.nil? }
+      arr.my_each { return true unless arr.nil? }
     else
-      arr.my_each do |x|
-        return true if x == arg
-      end
+      arr.my_each { |x| return true if x == arg }
     end
     y
   end
