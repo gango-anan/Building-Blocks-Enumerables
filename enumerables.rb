@@ -50,7 +50,7 @@ module Enumerable
       arr.my_each do |x|
         y = x == arg
       end
-    end  
+    end
     y
   end
 
@@ -80,43 +80,41 @@ module Enumerable
     y
   end
 
-
-  def my_none?(arg=nil)
-    arr=self
-    n= arr.length-1
-    pass=0
-    n_array=[]
-    y=true
+  def my_none?(arg = nil)
+    arr = self
+    n = arr.length - 1
+    pass = 0
+    n_array = []
+    y = true
 
     if block_given?
       arr.my_each do |x|
-        if yield (x)
+        if yield x
           y = false
           return y
         else
-           y = true
+          y = true
         end
-      
-    end
-    return y
-    
-    elsif !block_given? && arg==nil
-    arr.my_each do |x|
-      if x==nil || x==false       
-          y=true
-      else
-        y=false
-        return y
       end
-    end
-    return y
+      return y
+
+    elsif !block_given? && arg.nil?
+      arr.my_each do |x|
+        if x.nil? || x == false
+          y = true
+        else
+          y = false
+          return y
+        end
+      end
+      return y
     else
-    arr.my_each do |x|
-      if x != arg
-        y=true
-        return y
+      arr.my_each do |x|
+        if x != arg
+          y = true
+          return y
+        end
       end
-    end
     end
   end
 
