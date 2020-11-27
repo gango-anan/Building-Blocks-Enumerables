@@ -8,7 +8,7 @@ module Enumerable
       x = arr[i]
       n_array[i] = yield(x)
       i += 1
-   end
+    end
     self
   end
 
@@ -82,11 +82,7 @@ module Enumerable
 
   def my_none?(arg = nil)
     arr = self
-    n = arr.length - 1
-    pass = 0
-    n_array = []
     y = true
-
     if block_given?
       arr.my_each do |x|
         if yield x
