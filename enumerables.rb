@@ -123,51 +123,15 @@ module Enumerable
     n_array
   end
 
-  # def my_inject(arg1 = nil, arg2 = nil)
-  #   if (!arg1.nil? && arg2.nil?) && (arg1.is_a?(Symbol) || arg1.is_a?(String))
-  #     arg2 = arg1
-  #     arg1 = nil
-  #   end
-
-  #   if !block_given? && !arg2.nil?
-  #     my_each do |element|
-  #       arg1 = if arg1.nil?
-  #                element
-  #              else
-  #                arg1.send(arg2, element)
-  #              end
-  #     end
-  #   else
-  #     my_each do |element|
-  #       arg1 = if arg1.nil?
-  #                element
-  #              else
-  #                yield(arg1, element)
-  #              end
-  #     end
-  #   end
-  #   arg1
-  # end
-
   def my_inject(arg1 = nil, arg2 = nil)
-    arg2, arg1 = arg1, nil if (arg1 != nil && arg2 == nil) && (arg1.is_a?(Symbol) || arg1.is_a?(String))
-    
-    if !block_given? && arg2 != nil 
-      my_each do |element| 
-        if arg1 == nil
-          arg1 = element
-        else
-          arg1 = arg1.send(arg2, element)
-        end
-      end
+    if (!arg1.nil? && arg2.nil?) && (arg1.is_a?(Symbol) || arg1.is_a?(String))
+      arg2 = arg1
+      arg1 = nil
+    end
+    if !block_given? && !arg2.nil? 
+      my_each { |element| arg1 = arg1.nil? ? element : arg1.send(arg2, element) }
     else
-      my_each do |element|
-        if  arg1 == nil
-          arg1 = element 
-        else
-          arg1 = yield(arg1, element)
-        end
-      end
+      my_each { |element| arg1 = arg1.nil? ? element : yield(arg1, element) }
     end
     arg1
   end
