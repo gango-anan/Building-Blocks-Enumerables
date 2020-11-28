@@ -31,7 +31,8 @@ module Enumerable
   end
 
   def my_all?(arg = nil)
-    arr, y = self, false
+    arr = self
+    y = false
     if block_given?
       arr.my_each { |x| return true if yield x }
     elsif !block_given? && arg.nil?
