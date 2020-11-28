@@ -72,11 +72,11 @@ module Enumerable
     y = true
     if block_given?
       arr.my_each do |x|
-        return false  if yield x
+        return false if yield x
       end
     elsif !block_given? && arg.nil?
       arr.my_each do |x|
-        return false  if !x.nil? || x != false
+        return false if !x.nil? || x != false
       end
     else
       arr.my_each do |x|
