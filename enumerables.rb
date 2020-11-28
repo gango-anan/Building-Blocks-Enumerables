@@ -43,18 +43,14 @@ module Enumerable
     y
   end
 
-  def my_any?(param = nil)
+  def my_any?(arg = nil)
+    arr = self
     if block_given?
-      to_a.my_each { |item| return true if yield(item) }
-      return false
-    elsif param.nil?
-      to_a.my_each { |item| return true if item }
-    elsif !param.nil? && (param.is_a? Class)
-      to_a.my_each { |item| return true if [item.class, item.class.superclass].include?(param) }
-    elsif !param.nil? && param.class == Regexp
-      to_a.my_each { |item| return true if param.match(item) }
+      arr.my_each { |x| return true if yield x }
+    elsif !block_given? && arg.nil?
+      arr.my_each { return true unless arr.nil? }
     else
-      to_a.my_each { |item| return true if item == param }
+      arr.my_each { |x| return true if x == arg }
     end
     false
   end
