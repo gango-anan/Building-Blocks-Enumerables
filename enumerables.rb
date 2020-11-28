@@ -63,26 +63,19 @@ module Enumerable
     else
       arr.my_each { |x| return true if x == arg }
     end
-    return false
+    false
   end
 
   def my_none?(arg = nil)
     arr = self
-    y = true
     if block_given?
-      arr.my_each do |x|
-        return false if yield x
-      end
+      arr.my_each { |x| return false if yield x }
     elsif !block_given? && arg.nil?
-      arr.my_each do |x|
-        return false if !x.nil? || x != false
-      end
+      arr.my_each { |x| return false if !x.nil? || x == true }
     else
-      arr.my_each do |x|
-        return true if x != arg
-      end
+      arr.my_each { |x| return true if x != arg }
     end
-    y
+    true
   end
 
   def my_count(arg = nil)
@@ -90,8 +83,7 @@ module Enumerable
     y = 0
     if block_given?
       arr.my_each { |x| y += 1 if yield x }
-    elsif !block_given? && arg.nil?
-      y = arr.length
+    elsif !block_given? && arg.nil? { y = arr.length }
     else
       y = arr.my_select { |x| x == arg }.length
     end
