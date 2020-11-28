@@ -1,10 +1,9 @@
 module Enumerable
   def my_each
     arr = to_a
-    n = arr.length
     i = 0
     n_array = []
-    while i < n
+    while i < arr.length
       x = arr[i]
       n_array[i] = yield(x)
       i += 1
@@ -14,10 +13,9 @@ module Enumerable
 
   def my_each_with_index
     arr = to_a
-    n = arr.length
     i = 0
     n_array = []
-    while i < n
+    while i < arr.length
       x = arr[i]
       n_array[i] = yield(x, i)
       i += 1
@@ -33,23 +31,13 @@ module Enumerable
   end
 
   def my_all?(arg = nil)
-    arr = self
-    y = false
+    arr, y = self, false
     if block_given?
-      arr.my_each do |x|
-        y = if yield x
-              true
-            else
-              false
-            end
-        return y
-      end
+      arr.my_each { |x| return true if yield x }
     elsif !block_given? && arg.nil?
       y = true
     else
-      arr.my_each do |x|
-        y = x == arg
-      end
+      arr.my_each { |x| y = x == arg }
     end
     y
   end
