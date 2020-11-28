@@ -56,7 +56,6 @@ module Enumerable
 
   def my_any?(arg = nil)
     arr = self
-    y = false
     if block_given?
       arr.my_each { |x| return true if yield x }
     elsif !block_given? && arg.nil?
@@ -64,7 +63,7 @@ module Enumerable
     else
       arr.my_each { |x| return true if x == arg }
     end
-    y
+    return false
   end
 
   def my_none?(arg = nil)
