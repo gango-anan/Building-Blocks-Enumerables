@@ -36,21 +36,25 @@ module Enumerable
     if block_given?
       arr.my_each { |x| return true if yield x }
     elsif !block_given? && arg.nil?
-      y = true
+      return true
     else
       arr.my_each { |x| y = x == arg }
     end
     y
   end
 
-  def my_any?(arg = nil)
-    arr = self
+  def my_any?(param = nil)
     if block_given?
-      arr.my_each { |x| return true if yield x }
-    elsif !block_given? && arg.nil?
-      arr.my_each { return true unless arr.nil? }
+      to_a.my_each { |item| return true if yield(item) }
+      return false
+    elsif param.nil?
+      to_a.my_each { |item| return true if item }
+    elsif !param.nil? && (param.is_a? Class)
+      to_a.my_each { |item| return true if [item.class, item.class.superclass].include?(param) }
+    elsif !param.nil? && param.class == Regexp
+      to_a.my_each { |item| return true if param.match(item) }
     else
-      arr.my_each { |x| return true if x == arg }
+      to_a.my_each { |item| return true if item == param }
     end
     false
   end
@@ -107,3 +111,10 @@ end
 def multiply_els(elements)
   elements.my_inject(:*)
 end
+
+puts '4.--------my_all--------'
+puts (%w[ant bear cat].my_all? { |word| word.length >= 3 }) #=> true
+puts (%w[ant bear cat].my_all? { |word| word.length >= 4 }) #=> false
+puts %w[ant bear cat].my_all?(/t/) #=> false
+puts [1, 2i, 3.14].my_all?(Numeric) #=> true
+puts [].my_all? #=> true
