@@ -3,11 +3,10 @@ module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
 
-    arr = to_a
     i = 0
     n_array = []
-    while i < arr.length
-      x = arr[i]
+    while i < to_a.length
+      x = to_a[i]
       n_array[i] = yield(x)
       i += 1
     end
@@ -17,11 +16,10 @@ module Enumerable
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
 
-    arr = to_a
     i = 0
     n_array = []
-    while i < arr.length
-      x = arr[i]
+    while i < to_a.length
+      x = to_a[i]
       n_array[i] = yield(x, i)
       i += 1
     end
@@ -38,22 +36,22 @@ module Enumerable
   end
 
   def my_all?(arg = nil)
-     arr = self
-     y = true
-     if block_given?
-       arr.my_each { |x| return false if yield(x) == false }
-       return true
-     elsif !block_given? && arg.nil?
-       return true
-     elsif arg.is_a?(Class)
-       arr.my_each { |x| return false unless x.is_a?(arg) }
-     elsif arg.is_a?(Regexp)
-       arr.my_each { |x| return false unless arg.match(x) }
-     else
-       arr.my_each { |x| return false if x != arg }
-     end
-     y
-   end
+    arr = self
+    y = true
+    if block_given?
+      arr.my_each { |x| return false if yield(x) == false }
+      return true
+    elsif !block_given? && arg.nil?
+      return true
+    elsif arg.is_a?(Class)
+      arr.my_each { |x| return false unless x.is_a?(arg) }
+    elsif arg.is_a?(Regexp)
+      arr.my_each { |x| return false unless arg.match(x) }
+    else
+      arr.my_each { |x| return false if x != arg }
+    end
+    y
+  end
 
   def my_any?(arg = nil)
     arr = self
@@ -74,7 +72,7 @@ module Enumerable
   def my_none?(arg = nil)
     arr = self
     return !arr.my_any?(arg) unless block_given?
-    
+
     arr.my_each { |x| return false if yield x }
     true
   end
@@ -93,11 +91,10 @@ module Enumerable
   end
 
   def my_map(arg = nil)
-    array = to_a
     index = 0
     n_array = []
-    while index < array.length
-      n_array[index] = arg.nil? ? yield(array[index]) : !yield(array[index])
+    while index < to_a.length
+      n_array[index] = arg.nil? ? yield(to_a[index]) : !yield(to_a[index])
       index += 1
     end
     n_array
