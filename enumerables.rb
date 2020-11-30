@@ -14,6 +14,7 @@ module Enumerable
   end
 
   def my_each_with_index
+    return to_enum(:my_each) if !block_given?
     arr = to_a
     i = 0
     n_array = []
@@ -26,6 +27,7 @@ module Enumerable
   end
 
   def my_select
+    return to_enum(:my_each) if !block_given?
     arr = self
     n_array = []
     arr.my_each { |x| n_array << x if yield x }
