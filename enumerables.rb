@@ -90,7 +90,7 @@ module Enumerable
 
   def my_map(arg = nil)
     return to_enum(:my_map) unless block_given?
-    
+
     index = 0
     n_array = []
     while index < to_a.length
