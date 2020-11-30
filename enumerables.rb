@@ -89,7 +89,8 @@ module Enumerable
   end
 
   def my_map(arg = nil)
-    return to_enum(:my_map) if !block_given?
+    return to_enum(:my_map) unless block_given?
+    
     index = 0
     n_array = []
     while index < to_a.length
@@ -120,5 +121,3 @@ end
 
 puts 'multiply_els'
 puts multiply_els([2, 4, 5])
-
-p [nil, false, true, []].my_all?
