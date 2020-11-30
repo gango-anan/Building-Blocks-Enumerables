@@ -42,7 +42,7 @@ module Enumerable
       arr.my_each { |x| return false if yield(x) == false }
       return true
     elsif !block_given? && arg.nil?
-      return true
+      arr.my_each { |x| return false if x.nil? || x == false }
     elsif arg.is_a?(Class)
       arr.my_each { |x| return false unless x.is_a?(arg) }
     elsif arg.is_a?(Regexp)
