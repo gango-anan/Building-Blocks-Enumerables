@@ -57,6 +57,10 @@ module Enumerable
       arr.my_each { |x| return true if yield x }
     elsif !block_given? && arg.nil?
       arr.my_each { return true unless arr.nil? }
+    elsif arg.is_a?(Class)
+      arr.my_each { |x| return true if x.is_a?(arg)}
+    elsif arg.is_a?(Regexp)
+      arr.my_each { |x| return true if arg.match(x)}
     else
       arr.my_each { |x| return true if x == arg }
     end
@@ -67,10 +71,8 @@ module Enumerable
     arr = self
     if block_given?
       arr.my_each { |x| return false if yield x }
-    elsif !block_given? && arg.nil?
-      arr.my_each { |x| return false if !x.nil? || x == true }
     else
-      arr.my_each { |x| return true if x != arg }
+     return !arr.my_any?(arg) 
     end
     true
   end
