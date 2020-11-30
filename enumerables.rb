@@ -2,6 +2,7 @@
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
+
     arr = to_a
     i = 0
     n_array = []
@@ -15,6 +16,7 @@ module Enumerable
 
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
+
     arr = to_a
     i = 0
     n_array = []
@@ -28,13 +30,14 @@ module Enumerable
 
   def my_select
     return to_enum(:my_select) unless block_given?
+
     arr = self
     n_array = []
     arr.my_each { |x| n_array << x if yield x }
     n_array
   end
 
-   def my_all?(arg = nil)
+  def my_all?(arg = nil)
      arr = self
      y = true
      if block_given?
@@ -70,12 +73,10 @@ module Enumerable
 
   def my_none?(arg = nil)
     arr = self
-    if block_given?
-      arr.my_each { |x| return false if yield x }
-      return true
-    else
-      return !arr.my_any?(arg)
-    end
+    return !arr.my_any?(arg) unless block_given?
+    
+    arr.my_each { |x| return false if yield x }
+    true
   end
 
   def my_count(arg = nil)
