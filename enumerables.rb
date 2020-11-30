@@ -1,3 +1,4 @@
+# rubocop: disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 module Enumerable
   def my_each
     arr = to_a
@@ -72,7 +73,8 @@ module Enumerable
     y = 0
     if block_given?
       arr.my_each { |x| y += 1 if yield x }
-    elsif !block_given? && arg.nil? { y = arr.length }
+    elsif !block_given? && arg.nil?
+      y = arr.length
     else
       y = arr.my_select { |x| x == arg }.length
     end
@@ -103,14 +105,8 @@ module Enumerable
     arg1
   end
 end
+# rubocop: enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
 def multiply_els(elements)
   elements.my_inject(:*)
 end
-
-puts '4.--------my_all--------'
-puts (%w[ant bear cat].my_all? { |word| word.length >= 3 }) #=> true
-puts (%w[ant bear cat].my_all? { |word| word.length >= 4 }) #=> false
-puts %w[ant bear cat].my_all?(/t/) #=> false
-puts [1, 2i, 3.14].my_all?(Numeric) #=> true
-puts [].my_all? #=> true
