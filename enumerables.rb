@@ -96,7 +96,7 @@ module Enumerable
     index = 0
     n_array = []
     while index < array.length
-      n_array[index] = arg.nil? ? yield(array[index]) : yield(arg[index])
+      n_array[index] = arg.nil? ? yield(array[index]) : !yield(array[index])
       index += 1
     end
     n_array
