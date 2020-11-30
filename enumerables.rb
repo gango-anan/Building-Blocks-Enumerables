@@ -37,7 +37,6 @@ module Enumerable
 
   def my_all?(arg = nil)
     arr = self
-    y = true
     if block_given?
       arr.my_each { |x| return false if yield(x) == false }
       return true
@@ -50,7 +49,7 @@ module Enumerable
     else
       arr.my_each { |x| return false if x != arg }
     end
-    y
+    true
   end
 
   def my_any?(arg = nil)
@@ -78,14 +77,13 @@ module Enumerable
   end
 
   def my_count(arg = nil)
-    arr = self
     y = 0
     if block_given?
-      arr.my_each { |x| y += 1 if yield x }
+      to_a.my_each { |x| y += 1 if yield x }
     elsif !block_given? && arg.nil?
-      y = arr.length
+      y = to_a.length
     else
-      y = arr.my_select { |x| x == arg }.length
+      y = to_a.select { |x| x == arg }.length
     end
     y
   end
@@ -122,3 +120,5 @@ end
 
 puts 'multiply_els'
 puts multiply_els([2, 4, 5])
+
+p [nil, false, true, []].my_all?
