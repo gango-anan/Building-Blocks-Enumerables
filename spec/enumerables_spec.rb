@@ -41,23 +41,33 @@ describe "enumerables" do
   #   end
   # end
 
-  describe "my_select:" do
+  # describe "my_select:" do
+  #   it 'should return an Enumerator if block is not given' do
+  #     expect(my_array.my_select).to be_a(Enumerator)
+  #   end
+
+  #   it "should return an array given the condition" do
+  #     expect(my_array.my_select { |elem| elem != 1} ).to eql([2, 3, 4])
+  #   end
+
+  #   it "should return a key and a value given the condition" do
+  #     expect(my_hash.my_select { |k , v| v != 1} ).to eql([[:max, 9]])
+  #   end
+
+  #   it "should return an array" do
+  #     expect(my_range.my_select { |elem| elem != 1} ).to eql([2, 3])
+  #   end
+
+  # end
+
+   describe "my_all:" do
+
     it 'should return an Enumerator if block is not given' do
-      expect(my_array.my_select).to be_a(Enumerator)
-    end
+      expect(my_array.my_all?).to eql(true)
+     end
 
     it "should return an array given the condition" do
-      expect(my_array.my_select { |elem| elem != 1} ).to eql([2, 3, 4])
+      expect(my_array.my_all? { |elem| elem > 1} ).to eql(false)
     end
-
-    it "should return a key and a value given the condition" do
-      expect(my_hash.my_select { |k , v| v != 1} ).to eql([[:max, 9]])
-    end
-
-    it "should return an array" do
-      expect(my_range.my_select { |elem| elem != 1} ).to eql([2, 3])
-    end
-
-  end
 
 end

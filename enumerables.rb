@@ -122,4 +122,5 @@ end
 #puts 'multiply_els'
 #puts multiply_els([2, 4, 5])
 
-
+puts [1,false,3].my_all?
+puts [1,2,3].all?
