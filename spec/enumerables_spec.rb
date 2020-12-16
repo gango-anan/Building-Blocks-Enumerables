@@ -1,7 +1,3 @@
-# frozen_string_literal: true
-
-# rubocop: disable Metrics/BlockLength
-
 require_relative '../enumerables'
 
 describe 'enumerables' do
@@ -117,5 +113,3 @@ describe 'enumerables' do
     end
   end
 end
-
-# rubocop: enable Metrics/BlockLength
