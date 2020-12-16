@@ -119,5 +119,7 @@ def multiply_els(elements)
   elements.my_inject(:*)
 end
 
-puts 'multiply_els'
-puts multiply_els([2, 4, 5])
+#puts 'multiply_els'
+#puts multiply_els([2, 4, 5])
+
+
